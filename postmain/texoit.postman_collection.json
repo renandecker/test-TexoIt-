@@ -1,0 +1,62 @@
+{
+	"info": {
+		"_postman_id": "af021bb7-14b7-4956-a8a1-eeab3f24e0cd",
+		"name": "texoit",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "9981635"
+	},
+	"item": [
+		{
+			"name": "import csv",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept-encoding": true
+				}
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/movie/csv/import",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"movie",
+						"csv",
+						"import"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get interval prizes movie",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept-encoding": true
+				}
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/movie/interval/prizes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"movie",
+						"interval",
+						"prizes"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
