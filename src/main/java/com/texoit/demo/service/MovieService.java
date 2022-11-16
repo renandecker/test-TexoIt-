@@ -39,8 +39,11 @@ public class MovieService {
 
             for(Movie moviecheck: movies){
                 if(moviecheck.getWinner() != null && !moviecheck.getWinner().equals("")){
-                    if(moviecheck.getProducers() != null && moviecheck.getProducers().equals(movietemp.getProducers()) &&
-                            !moviecheck.getTitle().equals(movietemp.getTitle()) && !moviecheck.getYear().equals(movietemp.getYear())){
+                    if(moviecheck.getProducers() != null &&
+                            !moviecheck.getProducers().equals("") &&
+                            moviecheck.getProducers().equals(movietemp.getProducers()) &&
+                            !moviecheck.getTitle().equals(movietemp.getTitle()) &&
+                            !moviecheck.getYear().equals(movietemp.getYear())){
                         producer.setFollowingWin(Integer.valueOf(moviecheck.getYear()));
                         producer.setInterval(producer.getFollowingWin()-producer.getPreviousWin());
                     }else{

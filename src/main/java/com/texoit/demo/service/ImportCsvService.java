@@ -40,13 +40,20 @@ public class ImportCsvService {
             int positionSplitted = 5;
             while (positionSplitted < splitted.length-1) {
                 CSV csv = new CSV();
-                csv.setYear(splitted[positionSplitted]);
-                csv.setTitle(positionSplitted+1 >  splitted.length-1 ? null : splitted[positionSplitted+1]);
-                csv.setStudios(positionSplitted+2 >  splitted.length-1 ? null : splitted[positionSplitted+2]);
-                csv.setProducers(positionSplitted+3 >  splitted.length-1 ? null : splitted[positionSplitted+3]);
-                csv.setWinner(positionSplitted+4 > splitted.length-1 ? null : splitted[positionSplitted+4]);
-                csvs.add(csv);
-                positionSplitted+=5;
+                if(positionSplitted+3 <  splitted.length-1){
+                    String[] producers = Arrays.stream(splitted[positionSplitted+3].split(",|\\tand\\t")).map(String::trim).toArray(String[]::new);
+                    int producersSplitted = 0;
+                    while (producersSplitted < producers.length) {
+                        csv.setProducers(producers[producersSplitted].trim());
+                        csv.setYear(splitted[positionSplitted]);
+                        csv.setTitle(positionSplitted + 1 > splitted.length - 1 ? null : splitted[positionSplitted + 1]);
+                        csv.setStudios(positionSplitted + 2 > splitted.length - 1 ? null : splitted[positionSplitted + 2]);
+                        csv.setWinner(positionSplitted + 4 > splitted.length - 1 ? null : splitted[positionSplitted + 4]);
+                        csvs.add(csv);
+                        producersSplitted += 1;
+                    }
+                }
+                positionSplitted += 5;
             }
             insertCSV(csvs);
         } catch (Exception e) {
