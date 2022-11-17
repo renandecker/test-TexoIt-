@@ -1,13 +1,15 @@
 package com.texoit.demo.service;
 
 import com.texoit.demo.model.CSV;
-import com.texoit.demo.model.entity.Movie;
-import com.texoit.demo.repository.MovieRepository;
 import com.texoit.demo.util.TexoItException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
-import java.io.*;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,12 +18,15 @@ import java.util.List;
 @Service
 public class ImportCsvService {
 
-    private static final String newLine = System.getProperty("line.separator");
-
     @Autowired
     private MovieService movieService;
 
-    public String consultDocument() throws TexoItException {
+    public ImportCsvService(MovieService movieService ) {
+        this.movieService = movieService;
+    }
+
+
+    public List<CSV> consultDocument() throws TexoItException {
         List<CSV> csvs = new ArrayList<>();
         InputStream inputStream = null;
         try {
@@ -39,11 +44,12 @@ public class ImportCsvService {
 
             int positionSplitted = 5;
             while (positionSplitted < splitted.length-1) {
-                CSV csv = new CSV();
                 if(positionSplitted+3 <  splitted.length-1){
-                    String[] producers = Arrays.stream(splitted[positionSplitted+3].split(",|\\tand\\t")).map(String::trim).toArray(String[]::new);
+
+                    String[] producers = Arrays.stream(splitted[positionSplitted+3].split(",| and ")).map(String::trim).toArray(String[]::new);
                     int producersSplitted = 0;
                     while (producersSplitted < producers.length) {
+                        CSV csv = new CSV();
                         csv.setProducers(producers[producersSplitted].trim());
                         csv.setYear(splitted[positionSplitted]);
                         csv.setTitle(positionSplitted + 1 > splitted.length - 1 ? null : splitted[positionSplitted + 1]);
@@ -67,7 +73,7 @@ public class ImportCsvService {
                 }
             }
         }
-        return "Importado";
+        return csvs;
     }
 
     public void insertCSV(List<CSV> csvs) throws TexoItException {

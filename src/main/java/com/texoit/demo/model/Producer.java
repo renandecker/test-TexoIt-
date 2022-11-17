@@ -46,11 +46,6 @@ public class Producer  implements Comparable<Producer>{
 
     @Override
     public int compareTo(Producer o) {
-        if (this.interval > o.getInterval()) {
-            return -1;
-        } if (this.interval < o.getInterval()) {
-            return 1;
-        }
-        return 0;
+        return this.getInterval().compareTo(o.getInterval());
     }
 }

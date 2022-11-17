@@ -30,7 +30,6 @@ public class MovieService {
             if(movies.size() == 0){
                 return movieResponse;
             }
-
             Collections.sort(movies);
 
             Producer producer = new Producer();
@@ -83,6 +82,7 @@ public class MovieService {
 
             Collections.reverse(producers);
 
+            producer = new Producer();
 
             for(Producer producertemp: producers) {
 
@@ -114,7 +114,6 @@ public class MovieService {
 
     public void saveMovies(List<CSV> csvs) throws TexoItException {
         try {
-            List<Movie> movies = new ArrayList<>();
             for(CSV csv: csvs){
                 Movie movie = new Movie();
                 movie.setProducers(csv.getProducers());
@@ -122,10 +121,8 @@ public class MovieService {
                 movie.setTitle(csv.getTitle());
                 movie.setWinner(csv.getWinner());
                 movie.setYear(csv.getYear());
-                movies.add(movie);
+                movieRepository.save(movie);
             }
-
-            movieRepository.saveAll(movies);
         }catch (Exception e){
             throw new TexoItException(e.getMessage());
         }

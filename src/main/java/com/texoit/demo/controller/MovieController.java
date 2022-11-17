@@ -1,5 +1,6 @@
 package com.texoit.demo.controller;
 
+import com.texoit.demo.model.CSV;
 import com.texoit.demo.model.MovieResponse;
 import com.texoit.demo.service.ImportCsvService;
 import com.texoit.demo.service.MovieService;
@@ -12,6 +13,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "movie")
@@ -42,13 +46,12 @@ public class MovieController {
     }
 
     @GetMapping(value = "csv/import", produces = "application/json")
-    public ResponseEntity<String> listIteractorTransport() {
-        String csv = null;
+    public ResponseEntity<List<CSV>> listIteractorTransport() {
         try {
-            csv = importCsvService.consultDocument();
+            List<CSV> csvs = importCsvService.consultDocument();
 
-            if(csv != null){
-                return new ResponseEntity<>(csv, header(), HttpStatus.OK);
+            if(csvs != null && csvs.size() > 0){
+                return new ResponseEntity<>(csvs, header(), HttpStatus.OK);
             }
         } catch (TexoItException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -56,7 +59,7 @@ public class MovieController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
 
-        return new ResponseEntity<>(csv, header(), HttpStatus.OK);
+        return new ResponseEntity<>(new ArrayList<>(), header(), HttpStatus.OK);
     }
 
     private HttpHeaders header() {
